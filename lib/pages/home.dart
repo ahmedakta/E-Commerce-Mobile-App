@@ -1,14 +1,98 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:jiki/models/CategoryModel.dart';
+import 'package:jiki/models/ClothesModel.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
+
+  List<CategoryModel> categories = [];
+  List<ClothesModel> clothes = [];
+
+  void _getInitialInfo() {
+    categories = CategoryModel.getCategories();
+    clothes = ClothesModel.getClothes();
+  }
 
   @override
   Widget build(BuildContext context) {
+    _getInitialInfo();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: appBar(),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _grayLine(),
+          SizedBox(
+            height: 15,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Text(
+                  "Categories",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: "Lato",
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Container(
+                height: 90,
+                child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    padding: EdgeInsets.only(left: 20, right: 20),
+                    itemCount: categories.length,
+                    separatorBuilder: (context, index) => SizedBox(
+                          width: 20,
+                        ),
+                    itemBuilder: (context, index) {
+                      return Container(
+                        height: 50,
+                        width: 120,
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              color: categories[index].borderColor,
+                              width: 1.0,
+                            ),
+                            image: DecorationImage(
+                              image: AssetImage(categories[index]
+                                  .photo), // Replace with your image asset
+                              fit: BoxFit.cover, // Adjust the BoxFit as needed
+                            ),
+                            borderRadius: BorderRadius.circular(10)),
+                      );
+                    }),
+              )
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Container _grayLine() {
+    return Container(
+      height: 10,
+      margin:
+          EdgeInsets.only(left: 50, right: 50), // Adjust the padding as needed
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: Color(0xfffDDDADA), // You can change the color of the border
+            width: 2.0,
+            // You can adjust the width of the border
+          ),
+        ),
+      ),
     );
   }
 
