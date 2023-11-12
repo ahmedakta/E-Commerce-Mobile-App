@@ -20,8 +20,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: appBar(),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      body: ListView(
         children: [
           _grayLine(),
           SizedBox(
@@ -34,6 +33,52 @@ class HomePage extends StatelessWidget {
           clothesSection(),
           SizedBox(
             height: 15,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Text(
+                  "Clothes Categories",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: "Lato",
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Container(
+                height: 190,
+                child: ListView.separated(
+                    scrollDirection: Axis.vertical,
+                    padding: EdgeInsets.only(left: 20, right: 20),
+                    itemCount: categories.length,
+                    separatorBuilder: (context, index) => SizedBox(
+                          height: 10,
+                        ),
+                    itemBuilder: (context, index) {
+                      return Container(
+                        height: 80,
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              color: categories[index].borderColor,
+                              width: 1.0,
+                            ),
+                            image: DecorationImage(
+                              image: AssetImage(categories[index]
+                                  .photo), // Replace with your image asset
+                              fit: BoxFit.cover, // Adjust the BoxFit as needed
+                            ),
+                            borderRadius: BorderRadius.circular(10)),
+                      );
+                    }),
+              )
+            ],
           ),
         ],
       ),
